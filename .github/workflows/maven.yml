@@ -11,32 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the repository code
+      # Step 1: Check out the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Debug file structure
-      - name: List files
-        run: ls -R
-
-      # Step 3: Set up Node.js environment
+      # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # Step 4: Install dependencies (adjust directory if needed)
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
-        working-directory: ./AppiumDemo # Update path if package.json is in a subdirectory
 
-      # Step 5: Start Appium server
+      # Step 4: Start Appium server
       - name: Start Appium Server
         run: |
           npm install -g appium
           appium --log-level info &
 
-      # Step 6: Run Appium tests
+      # Step 5: Run Appium tests
       - name: Run Appium tests
         run: npm test
-        working-directory: ./AppiumDemo
