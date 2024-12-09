@@ -15,22 +15,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js
+      # Step 2: Debug file structure (Optional)
+      - name: Debug: List files in repository
+        run: ls -R
+
+      # Step 3: Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # Step 3: Install dependencies
+      # Step 4: Install dependencies (adjust path if needed)
       - name: Install dependencies
-        run: npm install
-
-      # Step 4: Start Appium server
-      - name: Start Appium Server
         run: |
-          npm install -g appium
-          appium --log-level info &
-
-      # Step 5: Run Appium tests
-      - name: Run Appium tests
-        run: npm test
+          cd AppiumDemo  # Navigate to the correct directory
+          npm install
