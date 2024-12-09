@@ -1,35 +1,44 @@
-name: Android CI
+name: Appium Mobile Tests
 
 on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
-  build:
+  appium-tests:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Check out the repository code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      # Step 2: Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          distribution: 'zulu'
-          java-version: '11'
+          node-version: 18
 
-      - name: Install Dependencies
+      # Step 3: Install project dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Start Appium server
+      - name: Start Appium Server
         run: |
-          sudo apt-get update
-          sudo apt-get install -y zip unzip
+          npm install -g appium
+          appium --log-level info &
 
-      - name: Install Android SDK
-        run: |
-          wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -O cmdline-tools.zip
-          unzip cmdline-tools.zip -d $ANDROID_HOME/cmdline-tools
-          mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
-          sdkmanager --install "platform-tools" "build-tools;30.0.3" "platforms;android-30"
+      # Step 5: Run Appium tests
+      - name: Run Appium tests
+        run: npm test
 
-      - name: Run Build
-        run: ./gradlew assembleDebug
+      # Step 6: Upload test reports (optional)
+      - name: Upload Test Reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: test-results/ # Adjust the path based on where your reports are saved
