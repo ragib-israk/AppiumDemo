@@ -1,109 +1,37 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
 
-  <groupId>AppiumDemo</groupId>
-  <artifactId>AppiumDemo</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
 
-  <name>AppiumDemo</name>
-  <url>http://maven.apache.org</url>
+name: Java CI with Maven
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    
-  </properties>
-  
-  <build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.10.1</version>
-            <configuration>
-                <source>17</source> <!-- Set to the minimum required Java version -->
-                <target>17</target> <!-- Match your Java version -->
-            </configuration>
-        </plugin>
-        
-        <!-- Add depgraph-maven-plugin -->
-        <plugin>
-            <groupId>com.github.ferstl</groupId>
-            <artifactId>depgraph-maven-plugin</artifactId>
-            <version>4.0.1</version>
-        </plugin>
-        
-    </plugins>
-</build>
-  
-  
-  <dependencies>
-    <!-- Appium -->
-    <dependency>
-        <groupId>io.appium</groupId>
-        <artifactId>java-client</artifactId>
-        <version>8.6.0</version> <!-- Replace with the desired version -->
-    </dependency>
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
-    <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>4.9.1</version> <!-- Replace with the desired version -->
-    </dependency>
-    
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.2</version>
-        <scope>test</scope>
-    </dependency>
+jobs:
+  build:
 
-<dependency>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <version>3.2.5</version>
-</dependency>
+    runs-on: windows-latest
 
-<!-- https://mvnrepository.com/artifact/com.github.ferstl/depgraph-maven-plugin -->
-<dependency>
-    <groupId>com.github.ferstl</groupId>
-    <artifactId>depgraph-maven-plugin</artifactId>
-    <version>4.0.1</version>
-</dependency>
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file AppiumDemo1/pom.xml
+      
 
 
-    <!-- TestNG -->
-    <dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>7.7.1</version>
-        <scope>compile</scope>
-    </dependency>
-    <!-- JSON -->
-    <dependency>
-        <groupId>org.json</groupId>
-        <artifactId>json</artifactId>
-        <version>20230227</version>
-    </dependency>
-
-    <!-- Extent Reports -->
-    <dependency>
-        <groupId>com.aventstack</groupId>
-        <artifactId>extentreports</artifactId>
-        <version>5.0.9</version>
-    </dependency>
-    <!-- Commons Codec -->
-    <dependency>
-        <groupId>commons-codec</groupId>
-        <artifactId>commons-codec</artifactId>
-        <version>1.15</version>
-    </dependency>
-    <!-- Commons IO -->
-    <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.11.0</version>
-    </dependency>
-</dependencies>
-</project>
+    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
+    - name: Update dependency graph
+      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
