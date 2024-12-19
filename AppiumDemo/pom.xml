@@ -12,15 +12,33 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
   </properties>
-
+  
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.10.1</version>
+            <configuration>
+                <source>17</source> <!-- Set to the minimum required Java version -->
+                <target>17</target> <!-- Match your Java version -->
+            </configuration>
+        </plugin>
+        
+        <!-- Add depgraph-maven-plugin -->
+        <plugin>
+            <groupId>com.github.ferstl</groupId>
+            <artifactId>depgraph-maven-plugin</artifactId>
+            <version>4.0.1</version>
+        </plugin>
+        
+    </plugins>
+</build>
+  
+  
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
     <!-- Appium -->
     <dependency>
         <groupId>io.appium</groupId>
@@ -33,6 +51,27 @@
         <artifactId>selenium-java</artifactId>
         <version>4.9.1</version> <!-- Replace with the desired version -->
     </dependency>
+    
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
+    </dependency>
+
+<dependency>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>3.2.5</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/com.github.ferstl/depgraph-maven-plugin -->
+<dependency>
+    <groupId>com.github.ferstl</groupId>
+    <artifactId>depgraph-maven-plugin</artifactId>
+    <version>4.0.1</version>
+</dependency>
+
 
     <!-- TestNG -->
     <dependency>
@@ -65,6 +104,6 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.11.0</version>
- </dependency>
-  </dependencies>
+    </dependency>
+</dependencies>
 </project>
