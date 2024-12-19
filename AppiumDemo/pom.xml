@@ -19,18 +19,12 @@
   <build>
     <plugin>
     <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-compiler-plugin</artifactId>
-    <version>3.11.0</version>
-    <configuration>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.8.1</version>
+      <configuration>
         <source>17</source>
         <target>17</target>
-        <compilerArgs>
-            --add-exports
-            jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED
-            --add-opens
-            jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED
-        </compilerArgs>
-    </configuration>
+      </configuration>
 </plugin>
         
         <!-- Maven Surefire Plugin -->
